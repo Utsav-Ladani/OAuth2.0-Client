@@ -1,0 +1,17 @@
+{
+  "name": "oauth2.0-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "packageManager": "yarn@4.5.3",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module",
+  "scripts": {
+    "nodemon": "nodemon index.js"
+  }
+}
