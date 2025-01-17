@@ -1,7 +1,12 @@
 import fetch from "node-fetch"
 
 const handleOAuthRedirectionRequest = async (req, res) => {
-    const { code, state } = req.query
+    const { code, state, error, error_description } = req.query
+
+    if (error) {
+        res.status(403).json({ error: error_description })
+        return
+    }
 
     if (!code || !state) {
         res.status(403).json({ error: "Authentication failed" })
@@ -9,6 +14,11 @@ const handleOAuthRedirectionRequest = async (req, res) => {
     }
 
     const token = await getAccessToken(code)
+
+    if (!token) {
+        res.status(403).json({ error: "Failed to fetch access token" })
+        return
+    }
 
     res.cookie('token-client', token, {
         maxAge: 3600000,
