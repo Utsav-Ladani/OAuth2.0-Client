@@ -19,12 +19,27 @@ const handleOAuthRedirectionRequest = async (req, res) => {
 
 const getAccessToken = async (code) => {
     try {
-        const res = await fetch(`http://localhost:3210/token?grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3211/callback&client_id=power-tool&client_secret=ok`, {
+        const res = await fetch('http://localhost:3210/token', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: 'http://localhost:3211/callback',
+                client_id: 'power-tool',
+                client_secret: 'ok'
+            })
         })
-        const { token } = await res.json()
 
-        return token
+        if (res.status !== 200) {
+            return ''
+        }
+
+        const { access_token } = await res.json()
+
+        return access_token
     } catch (e) {
         console.error(e)
     }
